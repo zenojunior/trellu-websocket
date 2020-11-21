@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').createServer(app);
 var bodyParser = require('body-parser')
+var port = process.env.PORT || 3000;
 
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.json({websocket: new Date().toLocaleTimeString()}));
@@ -12,6 +13,6 @@ app.post('/webhooks/ordenate', (req, res) => {
 
 app.get('/*', (req, res) => res.redirect('/'));
 
-http.listen(3000, () => {
-  console.log('listening on *:3000');
+http.listen(port, () => {
+  console.log(`trellu-websocket listen on ${port}`);
 });
