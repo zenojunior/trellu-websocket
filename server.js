@@ -7,8 +7,20 @@ var port = process.env.PORT || 3000;
 app.use(bodyParser.json())
 app.get('/', (req, res) => res.json({websocket: new Date().toLocaleTimeString()}));
 
+io.on('connect', function(socket) {
+  console.log('usuario conectado', socket.id);
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+}); 
+
+
 app.post('/webhooks/ordenate', (req, res) => {
-  io.emit('ordenate', req.body);
+  const socketId = req.body.socketId
+  const sockets = Object.fromEntries(io.sockets.sockets)
+  const socket = sockets[socketId]
+  socket.broadcast.emit('ordenate', req.body)
+  // io.emit('ordenate', req.body);
   res.json({ success: true });
 });
 
