@@ -20,6 +20,7 @@ app.post('/webhooks/ordenate', (req, res) => {
   const sockets = Object.fromEntries(io.sockets.sockets)
   const socket = sockets[socketId]
   socket.broadcast.emit('ordenate', req.body)
+  console.log(req.body);
   // io.emit('ordenate', req.body);
   res.json({ success: true });
 });
